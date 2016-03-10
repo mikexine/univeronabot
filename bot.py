@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from telegram import Updater, ReplyKeyboardMarkup
+from telegram import Updater, ReplyKeyboardMarkup, ParseMode
 from telegram.utils.botan import Botan
 import logging
 import pyUniVeronaBot
@@ -41,8 +41,9 @@ def botinfo(bot, update):
     pyUniVeronaBot.writedb(update.message.to_dict())
     reply, markup = pyUniVeronaBot.botInfo()
     b.track(update.message, update.message.text)
-    bot.sendMessage(update.message.chat_id,
+    bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup))
 
 

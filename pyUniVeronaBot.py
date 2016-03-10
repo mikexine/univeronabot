@@ -20,7 +20,9 @@ HOME = """
 Seleziona un comando dalla tastiera!
 """
 BOTINFO = """
+I menù sono ottenuti dal [sito dell'ESU](https://esu.markas.info). 
 Domande? Contatta @mikexine qua su Telegram.
+Vuoi dare una mano? `github.com/mikexine/univeronabot`
 """
 
 SELEZIONA = "Seleziona una voce dalla tastiera!"
