@@ -7,6 +7,7 @@ import sqlite3
 import pickledb
 from geopy.distance import vincenty
 import datetime
+from time import sleep
 
 
 
@@ -99,17 +100,14 @@ def position(usrCoord):
         cena = mensa[key]['calendario']['cena']
         if cena == 1 or pranzo == 1:
             distDict['mensa'][key] = mensa[key]['coord']
-
     biblioteca = requests.get(URL + 'biblioteca/', headers=HEADERS).json()
     for key in biblioteca:
         if biblioteca[key]['orari'][today] != '':
             distDict['biblioteca'][key] = biblioteca[key]['coord']
-
     aulastudio = requests.get(URL + 'aulastudio/', headers=HEADERS).json()
     for key in aulastudio:
         if aulastudio[key]['orari'][today] != '':
             distDict['aulastudio'][key] = aulastudio[key]['coord']
-
     for key in distDict:
         for i in distDict[key]:
             lat = distDict[key][i]['lat']
@@ -119,27 +117,29 @@ def position(usrCoord):
                                    (lat, lon)).kilometers
 
     nearMensa = min(tmp['mensa'], key=tmp['mensa'].get)
-    nearAula = min(tmp['aulastudio'], key=tmp['aulastudio'].get)
-    nearBiblio = min(tmp['biblioteca'], key=tmp['biblioteca'].get)
-
     nearMensaDist = str(round(float(tmp['mensa'][nearMensa]), 4))
-    nearAulaDist = str(round(float(tmp['aulastudio'][nearAula]), 4))
-    nearBiblioDist = str(round(float(tmp['biblioteca'][nearBiblio]), 4))
-
-    line1 = "- Mensa più vicina, aperta oggi: %s, distante %s km.\n\n" %\
+    line1 = "- *Mensa* più vicina, aperta oggi: %s, distante %s km.\n\n" %\
         (mensa[nearMensa]['nome'].encode("utf-8"),
          nearMensaDist.encode("utf-8"))
-    line2 = "- Aula studio più vicina, aperta oggi: %s, distante %s km.\n\n" %\
+    markup.append(['/'+nearMensa.encode("utf-8")])
+
+    nearAula = min(tmp['aulastudio'], key=tmp['aulastudio'].get)
+    nearAulaDist = str(round(float(tmp['aulastudio'][nearAula]), 4))
+    line2 = "- *Aula studio* più vicina, aperta oggi: %s, distante %s km.\n\n" %\
         (aulastudio[nearAula]['nome'].encode("utf-8"),
          nearAulaDist.encode("utf-8"))
-    line3 = "- Biblioteca più vicina, aperta oggi: %s, distante %s km.\n\n" %\
-        (biblioteca[nearBiblio]['nome'].encode("utf-8"),
-         nearBiblioDist.encode("utf-8"))
-    reply = line1 + line2 + line3
-
-    markup.append(['/'+nearMensa.encode("utf-8")])
     markup.append(['/'+nearAula.encode("utf-8")])
-    markup.append(['/'+nearBiblio.encode("utf-8")])
+
+    try:
+        nearBiblio = min(tmp['biblioteca'], key=tmp['biblioteca'].get)
+        nearBiblioDist = str(round(float(tmp['biblioteca'][nearBiblio]), 4))
+        line3 = "- *Biblioteca* più vicina, aperta oggi: %s, distante %s km.\n\n" %\
+            (biblioteca[nearBiblio]['nome'].encode("utf-8"),
+             nearBiblioDist.encode("utf-8"))
+        markup.append(['/'+nearBiblio.encode("utf-8")])
+    except:
+        line3 = "- *Biblioteca:* oggi sono tutte chiuse."
+    reply = line1 + line2 + line3
 
     return reply, markup
 
