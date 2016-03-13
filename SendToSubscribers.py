@@ -13,8 +13,7 @@ config = ConfigParser.ConfigParser()
 config.read('settings.ini')
 token = config.get('main', 'token')
 
-mymessage = "Ciao! Sono stato aggiornato, dovrei essere leggermente più veloce! Lo sapevi che puoi anche inviarmi la tua posizione? Saprai subito quale è l'aula studio, la mensa e la biblioteca più vicine a te aperte in questo momento! ;)"
-
+mymessage = "Test Message!"
 text = mymessage
 
 print 'sending message: ' + text
