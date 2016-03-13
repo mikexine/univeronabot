@@ -51,8 +51,9 @@ def mensa(bot, update):
     pyUniVeronaBot.writedb(update.message.to_dict())
     reply, markup = pyUniVeronaBot.mensa()
     b.track(update.message, update.message.text)
-    bot.sendMessage(update.message.chat_id,
+    bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup))
 
 
@@ -60,8 +61,9 @@ def aulastudio(bot, update):
     pyUniVeronaBot.writedb(update.message.to_dict())
     reply, markup = pyUniVeronaBot.aulastudio()
     b.track(update.message, update.message.text)
-    bot.sendMessage(update.message.chat_id,
+    bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup))
 
 
@@ -69,8 +71,9 @@ def biblioteca(bot, update):
     pyUniVeronaBot.writedb(update.message.to_dict())
     reply, markup = pyUniVeronaBot.biblioteca()
     b.track(update.message, update.message.text)
-    bot.sendMessage(update.message.chat_id,
+    bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup))
 
 
@@ -80,8 +83,9 @@ def replier(bot, update):
     command = str(update.message.text).replace('/', '')
     command.lower()
     reply, markup, lat, lon = pyUniVeronaBot.replier(command)
-    bot.sendMessage(update.message.chat_id,
+    bot.sendMessage(chat_id=update.message.chat_id,
                     text=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                     reply_markup=ReplyKeyboardMarkup(markup))
     if lat is not None and lon is not None:
         bot.sendLocation(update.message.chat_id,
@@ -96,8 +100,9 @@ def position(bot, update):
     try:
         usrCoord = msg['location']
         reply, markup = pyUniVeronaBot.position(usrCoord)
-        bot.sendMessage(update.message.chat_id,
+        bot.sendMessage(chat_id=update.message.chat_id,
                         text=reply,
+                        parse_mode=ParseMode.MARKDOWN,
                         reply_markup=ReplyKeyboardMarkup(markup))
     except:
         pass

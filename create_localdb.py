@@ -33,23 +33,21 @@ for key in mensa:
     elif cena and not pranzo:
         tmp = "oggi è aperta solo a cena"
 
-    menupr = "-- PRANZO --\n-- PRIMO --\n%s\n-- SECONDO --\n%s\n--\
- CONTORNO --\n%s\n\n" % \
-           (', '.join(mensa[key]['menu']['pranzo']['primo']),
+    menupr = "\n*PRANZO*\n_PRIMO:_ %s\n_SECONDO:_ %s\n_CONTORNO:_ %s\n\n" % \
+        (', '.join(mensa[key]['menu']['pranzo']['primo']),
             ', '.join(mensa[key]['menu']['pranzo']['secondo']),
             ', '.join(mensa[key]['menu']['pranzo']['contorno']))
-    menuce = "-- CENA --\n-- PRIMO --\n%s\n-- SECONDO --\n%s\n--\
- CONTORNO --\n%s" % \
-           (', '.join(mensa[key]['menu']['cena']['primo']),
+    menuce = "*CENA*\n_PRIMO:_ %s\n_SECONDO:_ %s\n_CONTORNO:_ %s" % \
+        (', '.join(mensa[key]['menu']['cena']['primo']),
             ', '.join(mensa[key]['menu']['cena']['secondo']),
             ', '.join(mensa[key]['menu']['cena']['contorno']))
     menu = menupr + menuce
     if not pranzo and not cena:
-        text = '-- Mensa %s --\nIn %s.\nOggi la mensa è chiusa.\n' % \
+        text = '*Mensa %s*\nIn %s.\nOggi la mensa _è chiusa._\n' % \
                 (mensa[key]['nome'].encode("utf-8"),
                  mensa[key]['indirizzo'].encode("utf-8"))
     else:
-        text = '-- Mensa %s --\nIn %s, %s con orario: %s. \n' % \
+        text = '*Mensa %s*\nIn %s, %s con orario: %s. \n' % \
                 (mensa[key]['nome'].encode("utf-8"),
                  mensa[key]['indirizzo'].encode("utf-8"),
                  tmp,
@@ -64,7 +62,7 @@ sleep(2)
 
 aulastudio = requests.get(URL + 'aulastudio/', headers=HEADERS).json()
 for key in aulastudio:
-    text = "-- %s --\nPosti: %s\nIndirizzo: %s\nOrari: %s.\n" % \
+    text = "*%s*\n_Posti:_ %s\n_Indirizzo:_ %s\n_Orari:_ %s.\n" % \
            (aulastudio[key]['nome'].encode("utf-8"),
             aulastudio[key]['posti'].encode("utf-8"),
             aulastudio[key]['indirizzo'].encode("utf-8"),
@@ -77,7 +75,7 @@ sleep(2)
 
 biblioteca = requests.get(URL + 'biblioteca/', headers=HEADERS).json()
 for key in biblioteca:
-    text = "-- %s --\nIndirizzo: %s\nOrari: %s.\n" % \
+    text = "*%s*\n_Indirizzo:_ %s\n_Orari:_ %s.\n" % \
            (biblioteca[key]['nome'].encode("utf-8"),
             biblioteca[key]['indirizzo'].encode("utf-8"),
             biblioteca[key]['orario'].encode("utf-8"))
